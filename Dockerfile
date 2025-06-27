@@ -152,8 +152,16 @@ FROM alpine:3.22 AS node
 COPY --from=node-builder /app/node/bin/node /usr/local/bin
 ENTRYPOINT ["node"]
 
+FROM alpine:3.22 AS node-goreleaser
+COPY node /usr/local/bin
+ENTRYPOINT ["node"]
+
 FROM alpine:3.22 AS nodeplugin
 COPY --from=node-plugin-builder /app/node/bin/nodeplugin /usr/local/bin
+ENTRYPOINT ["nodeplugin"]
+
+FROM alpine:3.22 AS nodeplugin-goreleaser
+COPY nodeplugin /usr/local/bin
 ENTRYPOINT ["nodeplugin"]
 
 FROM alpine:3.22 AS controller

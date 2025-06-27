@@ -116,6 +116,12 @@ docker-release-build:
 semver:
 	echo "${SEMVER}"
 
+release-build:
+	goreleaser build --clean --snapshot
+
+release-check:
+	goreleaser release --skip=publish
+
 ##### Proxies to other local Makefiles #####
 mdbook-serve:
 	$(MAKE) -C docs/spec serve
