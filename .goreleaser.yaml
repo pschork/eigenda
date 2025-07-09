@@ -1,0 +1,121 @@
+version: 2
+
+before:
+  hooks:
+    - go mod tidy
+    - go generate ./...
+
+git:
+  tag_sort: -version:creatordate
+
+builds:
+  - id: node
+    main: ./node/cmd/main.go
+    binary: node
+    ldflags:
+      - -X 'github.com/Layr-Labs/eigenda/node.SemVer={{ .Version }}'
+      - -X 'github.com/Layr-Labs/eigenda/node.GitCommit={{ .ShortCommit }}'
+      - -X 'github.com/Layr-Labs/eigenda/node.Arch={{ .Arch }}'
+      - -X 'github.com/Layr-Labs/eigenda/node.Os={{ .Os }}'
+      - -X 'github.com/Layr-Labs/eigenda/node.GitDate={{ .Timestamp }}'
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+  - id: nodeplugin
+    main: ./node/plugin/cmd/main.go
+    binary: nodeplugin
+    ldflags:
+      - -X 'github.com/Layr-Labs/eigenda/node.SemVer={{ .Version }}'
+      - -X 'github.com/Layr-Labs/eigenda/node.GitCommit={{ .ShortCommit }}'
+      - -X 'github.com/Layr-Labs/eigenda/node.Arch={{ .Arch }}'
+      - -X 'github.com/Layr-Labs/eigenda/node.Os={{ .Os }}'
+      - -X 'github.com/Layr-Labs/eigenda/node.GitDate={{ .Timestamp }}'
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+  
+dockers:
+  - image_templates:
+      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-node:{{ .Version }}-amd64'
+    dockerfile: Dockerfile
+    use: buildx
+    build_flag_templates:
+      - "--target=node-goreleaser"
+      - "--platform=linux/amd64"
+      - "--provenance=false"
+      - "--sbom=false"
+    goarch: amd64
+    ids:
+      - node
+  - image_templates:
+      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-node:{{ .Version }}-arm64'
+    dockerfile: Dockerfile
+    use: buildx
+    build_flag_templates:
+      - "--target=node-goreleaser"
+      - "--platform=linux/arm64"
+      - "--provenance=false"
+      - "--sbom=false"
+    goarch: arm64
+    ids:
+      - node
+  - image_templates:
+      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-nodeplugin:{{ .Version }}-amd64'
+    dockerfile: Dockerfile
+    use: buildx
+    build_flag_templates:
+      - "--target=nodeplugin-goreleaser"
+      - "--platform=linux/amd64"
+      - "--provenance=false"
+      - "--sbom=false"
+    goarch: amd64
+    ids:
+      - nodeplugin
+  - image_templates:
+      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-nodeplugin:{{ .Version }}-arm64'
+    dockerfile: Dockerfile
+    use: buildx
+    build_flag_templates:
+      - "--target=nodeplugin-goreleaser"
+      - "--platform=linux/arm64"
+      - "--provenance=false"
+      - "--sbom=false"
+    goarch: arm64
+    ids:
+      - nodeplugin
+
+docker_manifests:
+  - name_template: 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-node:{{ .Version }}'
+    image_templates:
+      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-node:{{ .Version }}-amd64'
+      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-node:{{ .Version }}-arm64'
+  - name_template: 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-nodeplugin:{{ .Version }}'
+    image_templates:
+      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-nodeplugin:{{ .Version }}-amd64'
+      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-nodeplugin:{{ .Version }}-arm64'
+  
+release:
+  github:
+    owner: '{{ .Env.GITHUB_REPOSITORY_OWNER }}'
+    name: eigenda
+
+  draft: true
+
+archives:
+  - formats: [ 'tar.gz' ]
+    # this name template makes the OS and Arch compatible with the results of `uname`.
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}

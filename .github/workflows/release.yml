@@ -4,6 +4,9 @@ on:
   push:
     tags:
       - v*
+    branches:
+      - master
+  pull_request:
 
 permissions:
   contents: write
@@ -22,8 +25,8 @@ jobs:
       - uses: jdx/mise-action@v2
         with:
           version: v2025.7.1 # [default: latest] mise version to install
-          log_level: info # [default: info] log level
-          github_token: ${{ secrets.GITHUB_TOKEN }} # [default: ${{ github.token }}] GitHub token for API authentication
+          log_level: info
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           experimental: true # required for go-ethereum/cmd/abigen
 
       - name: Login to ghcr
@@ -33,12 +36,16 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set snapshot flag
+        run: echo "SNAPSHOT_FLAG='--snapshot --skip publish'" >> $GITHUB_ENV
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
           distribution: goreleaser
           # 'latest', 'nightly', or a semver
           version: "~> v2"
-          args: release --clean
+          args: release --clean ${{ env.SNAPSHOT_FLAG }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
