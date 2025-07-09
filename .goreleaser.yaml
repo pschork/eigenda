@@ -55,7 +55,6 @@ dockers:
     goarch: amd64
     ids:
       - node
-    skip_push: true
   - image_templates:
       - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-node:{{ .Version }}-arm64'
     dockerfile: Dockerfile
@@ -68,7 +67,6 @@ dockers:
     goarch: arm64
     ids:
       - node
-    skip_push: true
   - image_templates:
       - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-nodeplugin:{{ .Version }}-amd64'
     dockerfile: Dockerfile
@@ -81,7 +79,6 @@ dockers:
     goarch: amd64
     ids:
       - nodeplugin
-    skip_push: true
   - image_templates:
       - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-nodeplugin:{{ .Version }}-arm64'
     dockerfile: Dockerfile
@@ -94,7 +91,6 @@ dockers:
     goarch: arm64
     ids:
       - nodeplugin
-    skip_push: true
 
 docker_manifests:
   - name_template: 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-node:{{ .Version }}'
