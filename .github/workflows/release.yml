@@ -4,7 +4,6 @@ on:
   push:
     tags:
       - v*
-  workflow_dispatch:
 
 permissions:
   contents: write
@@ -23,7 +22,7 @@ jobs:
       - uses: jdx/mise-action@v2
         with:
           version: v2025.7.1 # [default: latest] mise version to install
-          log_level: info # [default: info] log level
+          log_level: info
           github_token: ${{ secrets.GITHUB_TOKEN }}
           experimental: true # required for go-ethereum/cmd/abigen
 
