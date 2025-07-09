@@ -120,7 +120,7 @@ release-build:
 	goreleaser build --clean --snapshot
 
 release-check:
-	goreleaser release --skip=publish
+	GITHUB_REPOSITORY_OWNER=layr-labs goreleaser release --skip=publish --clean
 
 ##### Proxies to other local Makefiles #####
 mdbook-serve:
