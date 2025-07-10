@@ -117,10 +117,7 @@ semver:
 	echo "${SEMVER}"
 
 release-build:
-	goreleaser build --clean --snapshot
-
-release-check:
-	GITHUB_REPOSITORY_OWNER=layr-labs goreleaser release --skip=publish --clean
+	GITHUB_REPOSITORY_OWNER=layr-labs goreleaser release --skip=publish --clean --snapshot
 
 ##### Proxies to other local Makefiles #####
 mdbook-serve:
