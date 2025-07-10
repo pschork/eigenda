@@ -1,4 +1,4 @@
-name: goreleaser
+name: eigenda-goreleaser
 
 on:
   push:
