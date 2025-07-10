@@ -45,3 +45,4 @@ To install dependencies using mise, first [install and activate mise](https://mi
 - [EigenLayer/EigenDA forum](https://forum.eigenlayer.xyz)
 - [Email](mailto:eigenda-support@eigenlabs.org)
 - [Follow us on X](https://x.com/eigen_da)
+
