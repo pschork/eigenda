@@ -102,6 +102,9 @@ docker_manifests:
       - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-nodeplugin:{{ .Version }}-amd64'
       - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-nodeplugin:{{ .Version }}-arm64'
   
+checksum:
+  disable: true
+
 release:
   github:
     owner: '{{ .Env.GITHUB_REPOSITORY_OWNER }}'
