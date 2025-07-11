@@ -6,7 +6,7 @@ before:
     - go generate ./...
 
 git:
-  tag_sort: -version:creatordate
+  tag_sort: -version:refname
 
 builds:
   - id: node
