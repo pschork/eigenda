@@ -44,7 +44,7 @@ builds:
   
 dockers:
   - image_templates:
-      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-node:{{ .Version }}-amd64'
+      - 'ghcr.io/layr-labs/eigenda/opr-node:{{ .Version }}-amd64'
     dockerfile: Dockerfile
     use: buildx
     build_flag_templates:
@@ -56,7 +56,7 @@ dockers:
     ids:
       - node
   - image_templates:
-      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-node:{{ .Version }}-arm64'
+      - 'ghcr.io/layr-labs/eigenda/opr-node:{{ .Version }}-arm64'
     dockerfile: Dockerfile
     use: buildx
     build_flag_templates:
@@ -68,7 +68,7 @@ dockers:
     ids:
       - node
   - image_templates:
-      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-nodeplugin:{{ .Version }}-amd64'
+      - 'ghcr.io/layr-labs/eigenda/opr-nodeplugin:{{ .Version }}-amd64'
     dockerfile: Dockerfile
     use: buildx
     build_flag_templates:
@@ -80,7 +80,7 @@ dockers:
     ids:
       - nodeplugin
   - image_templates:
-      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-nodeplugin:{{ .Version }}-arm64'
+      - 'ghcr.io/layr-labs/eigenda/opr-nodeplugin:{{ .Version }}-arm64'
     dockerfile: Dockerfile
     use: buildx
     build_flag_templates:
@@ -93,21 +93,21 @@ dockers:
       - nodeplugin
 
 docker_manifests:
-  - name_template: 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-node:{{ .Version }}'
+  - name_template: 'ghcr.io/layr-labs/eigenda/opr-node:{{ .Version }}'
     image_templates:
-      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-node:{{ .Version }}-amd64'
-      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-node:{{ .Version }}-arm64'
-  - name_template: 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-nodeplugin:{{ .Version }}'
+      - 'ghcr.io/layr-labs/eigenda/opr-node:{{ .Version }}-amd64'
+      - 'ghcr.io/layr-labs/eigenda/opr-node:{{ .Version }}-arm64'
+  - name_template: 'ghcr.io/layr-labs/eigenda/opr-nodeplugin:{{ .Version }}'
     image_templates:
-      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-nodeplugin:{{ .Version }}-amd64'
-      - 'ghcr.io/{{ .Env.GITHUB_REPOSITORY_OWNER }}/eigenda/opr-nodeplugin:{{ .Version }}-arm64'
+      - 'ghcr.io/layr-labs/eigenda/opr-nodeplugin:{{ .Version }}-amd64'
+      - 'ghcr.io/layr-labs/eigenda/opr-nodeplugin:{{ .Version }}-arm64'
   
 checksum:
   disable: true
 
 release:
   github:
-    owner: '{{ .Env.GITHUB_REPOSITORY_OWNER }}'
+    owner: layr-labs
     name: eigenda
 
   draft: true
