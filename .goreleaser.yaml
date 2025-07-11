@@ -113,7 +113,7 @@ release:
   draft: true
 
 archives:
-  - formats: [ 'tar.gz' ]
+  - formats: 'tar.gz'
     # this name template makes the OS and Arch compatible with the results of `uname`.
     name_template: >-
       {{ .ProjectName }}_
